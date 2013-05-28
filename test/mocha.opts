@@ -1,0 +1,4 @@
+--ui tdd
+--require should
+--reporter spec
+--ui tdd
