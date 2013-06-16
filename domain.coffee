@@ -14,12 +14,12 @@ class Domain
     options =
       host: process.env.CONTROLLER_HOST || "localhost"
       port: process.env.CONTROLLER_PORT || 3002
-      path: process.env.CONTROLLER_URL || "/minnehaha/api/#{self.constructor.name.toLowerCase()}/"
+      path: process.env.CONTROLLER_URL || "/minnehaha/api/"
       method: "POST"
       headers:
         'Content-Type': "application/json"
         'Content-Length': post_data.length
-
+    options.path += "#{self.constructor.name.toLowerCase()}/"
 
     req = http.request options, (res) ->
       body = ''
@@ -106,7 +106,8 @@ Domain.get = (id, domainClassName, fn) ->
       options =
         host: process.env.CONTROLLER_HOST || "localhost"
         port: process.env.CONTROLLER_PORT || 3002
-        path: process.env.CONTROLLER_URL || "/minnehaha/api/#{domainClasNameLowerCase}/#{id}"
+        path: process.env.CONTROLLER_URL || "/minnehaha/api/"
+      options.path += "#{domainClasNameLowerCase}/#{id}"
 
       http.get options, (res) ->
         rawDomain = '';
