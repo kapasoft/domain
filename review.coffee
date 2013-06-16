@@ -1,5 +1,5 @@
 require('coffee-script');
-Domain = require './index'
+Domain = require './domain'
 
 class Review extends Domain
   save:(args) ->
