@@ -29,7 +29,7 @@ class Domain
         body += chunk
 
       res.on 'end', () ->
-        console.log 'Recieved from Controller at ' + options.path + ' body: ' + body
+        console.log 'Recieved from Controller at ' + options.host + ':' + options.port + options.path + ' body: ' + body
         newDomain = JSON.parse(body)
 
         if newDomain[0]?
@@ -54,7 +54,7 @@ class Domain
         return fn null
 
     req.on 'error', (e) ->
-      console.log 'problem with POST request to controller at ' + options.path + ' Error: ' + e.message
+      console.log 'problem with POST request to controller at ' + options.host + ':' + options.port + options.path + ' Error: ' + e.message
 
     req.write post_data + '\n'
     req.end '\n'
@@ -118,7 +118,7 @@ Domain.get = (id, domainClassName, fn) ->
           rawDomain += chunk
 
         res.on 'end', () ->
-          console.log 'Received from controller at ' + options.path + 'body: ' + rawDomain
+          console.log 'Received from controller at ' + options.host + ':' + options.port + options.path + 'body: ' + rawDomain
           newDomain = JSON.parse(rawDomain)
 
           db.zadd "#{domainClasNameLowerCase}s", newDomain.id, newDomain.id, (err, args) ->
@@ -138,7 +138,7 @@ Domain.get = (id, domainClassName, fn) ->
 
           return fn null, newDomain
       .on 'error', (e) ->
-        console.log 'Got error when requesting for update from controller at' + options.path + ' Error: ' + e.message
+        console.log 'Got error when requesting for update from controller at' + options.host + ':' + options.port + options.path + ' Error: ' + e.message
         fn e, null
     else
       db.hgetall "#{domainClasNameLowerCase}:#{id}", (err, cachedDomain) ->
